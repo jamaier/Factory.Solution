@@ -33,6 +33,6 @@ else
 }
 
 <div id="index-nav">
-
+<p>@Html.ActionLink("Edit Engineer", "Edit", new { id = Model.EngineerId })</p>
 <p>@Html.ActionLink("Remove this Engineer", "Delete", new { id = Model.EngineerId }) | @Html.ActionLink("Add new Machine", "AddMachine", "Engineers")</p>
 </div>
