@@ -1,0 +1,38 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Factory.Models.Engineer;
+@using Factory.Models;
+@using System.Collections.Generic;
+
+<h2>🎓 Student Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.EngineerName): @Html.DisplayFor(model => model.EngineerName)</h3>
+<h3>Enrollment Date: @Model.HireDate.ToString("MM/dd/yyyy")</h3>
+
+@if(@Model.JoinMachines.Count == 0)
+{
+  <p>This Engineer has not been approved on any tools yet.</p>
+}
+else
+{
+  <h4>Approved to work on these Machines:</h4>
+  <ul>
+  
+  @foreach(EngineerMachine join in Model.JoinMachines)
+  {
+    <li>@join.Machine.MachineLabel</li>
+    @using (Html.BeginForm("DeleteJoin", "Engineers"))
+    {
+      @Html.Hidden("joinId", @join.EngineerMachineId)
+      <input type="submit" value="Delete"class="btn btn-primary" />
+    }
+  }
+  </ul>
+}
+
+<div id="index-nav">
+
+<p>@Html.ActionLink("Remove this Engineer", "Delete", new { id = Model.EngineerId }) | @Html.ActionLink("Add new Machine", "AddMachine", "Engineers")</p>
+</div>
