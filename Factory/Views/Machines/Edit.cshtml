@@ -1,0 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Factory.Models.Machine
+
+<h2>Edit</h2>
+
+<h4>Edit this Tool @Html.DisplayFor(model => model.MachineLabel)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.MachineId)
+
+  @Html.LabelFor(model => model.MachineId)
+  @Html.TextBoxFor(model => model.MachineId)
+
+  <input type="submit" value="Save" />
+}

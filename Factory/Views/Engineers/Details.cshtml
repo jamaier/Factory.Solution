@@ -8,7 +8,7 @@
 <h2>Details</h2>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.EngineerName): @Html.DisplayFor(model => model.EngineerName)</h3>
-<h3>Hire Date: @Model.HireDate?.ToString("MM/dd/yyyy")</h3>
+<h5>Hire Date: @Html.DisplayFor(Model => Model.HireDate)</h5>
 
 @if(@Model.JoinMachines.Count == 0)
 {
