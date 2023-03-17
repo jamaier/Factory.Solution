@@ -8,26 +8,28 @@
 
 <hr>
 
-<h4>Machines:</h4>
-@if (Model["machines"].Length == 0)
-{
-  <p>No Machines have been added yet!</p>
-} 
-<ul>
-  @foreach (Machine machine in Model["machines"])
-  {
-    <li>@Html.ActionLink(@machine.MachineLabel, "Details", "Machines", new { id = @machine.MachineId})</li>
-  }
-</ul>
-
-<h4>Engineers:</h4>
+<h4>List of Engineers</h4>
 @if (Model["Engineers"].Length == 0)
 {
-  <p>No engineers have been added yet!</p>
-} 
+  <p>No Engineer's have been added yet.</p>
+}
 <ul>
-  @foreach (Engineer engineer in Model["engineers"])
+  @foreach (Engineer engineer in Model["Engineers"])
   {
-    <li>@Html.ActionLink(@engineer.EngineerName, "Details", "Engineers", new { id = @engineer.EngineerId})</li>
+    <li id="engineer">@Html.ActionLink(@engineer.EngineerName, "Details", "Engineers", new { id = @engineer.EngineerId})
+    </li>
+  }
+</ul>
+<hr>
+
+<h4>List of Machines</h4>
+@if (Model["Machines"].Length == 0)
+{
+  <p>No Machines have been added yet.</p>
+}
+<ul>
+  @foreach (Machine machine in Model["Machines"])
+  {
+    <li id="machine">@Html.ActionLink(@machine.MachineLabel, "Details", "Machines", new { id = @machine.MachineId})</li>
   }
 </ul>

@@ -4,33 +4,20 @@
 
 @using Factory.Models;
 
-<h1>Welcome to the To Do List!</h1>
+<h1>Engineers</h1>
 
-<hr>
-
-<h4>Machines:</h4>
-@if (Model["Machines"].Length == 0)
+@if(Model.Count == 0)
 {
-  <p>No Machines have been added yet!</p>
-} 
-<ul>
-  @foreach (Machine machine in Model["categories"])
-  {
-    <li>@Html.ActionLink(@machine.MachineLabel, "Details", "Categories", new { id = @machine.MachineId})</li>
-  }
-</ul>
-
-<h4>Engineers:</h4>
-@if (Model["Engineers"].Length == 0)
+  <h3>No engineers found.</h3>
+}
+else 
 {
-  <p>No engineers have been added yet!</p>
-} 
-<ul>
-  @foreach (Engineer engineer in Model["Engineers"])
+  @foreach(Engineer engineer in Model)
   {
-    <li>@Html.ActionLink(@engineer.EngineerName, "Details", "Engineers", new { id = @engineer.EngineerId})</li>
+    <p>@Html.ActionLink($"{engineer.EngineerName}", "Details", new { id = engineer.EngineerId})</p>
   }
-</ul>
+}
 
-<hr>
-
+<div id="index-nav">
+<p>@Html.ActionLink("Add new Engineer", "Create")</p>
+</div>

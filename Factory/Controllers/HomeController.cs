@@ -20,9 +20,9 @@ namespace Factory.Controllers
       Machine[] machines = _db.Machines.ToArray();
       Engineer[] engineers = _db.Engineers.ToArray();
       Dictionary<string, object[]> model = new Dictionary<string, object[]>();
-      model.Add("machines", machines);
-      model.Add("engineers", engineers);
-      return View();
+      model.Add("Machines", machines);
+      model.Add("Engineers", engineers);
+      return View(model);
     }
   }
 }
