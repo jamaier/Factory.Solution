@@ -12,7 +12,10 @@ namespace Factory.Models
     public string Description { get; set; }
     [Range(1, int.MaxValue, ErrorMessage = "The Machine Must Have A License For Service Purposes")]
     public int LicenseType { get; set; }
-    public List<Engineer> Engineer { get; set; }
+    public Engineer Engineer { get; set; }
+    public Repair Repair { get; set; }
+    public List<EngineerMachine> JoinEngineer { get; set; }
+    public List<MachineRepair> JoinRepair { get; }
 
   }
 }

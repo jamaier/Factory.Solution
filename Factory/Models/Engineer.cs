@@ -15,6 +15,7 @@ namespace Factory.Models
     public DateTime HireDate { get; set; }
     public int MachineId { get; set; }
     public Machine Machine { get; set; }
-    public List<EngineerMachine> JoinEntities { get; }
+    public List<EngineerMachine> JoinMachine { get; }
+    
   }
 }
