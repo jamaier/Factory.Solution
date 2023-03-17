@@ -25,7 +25,11 @@ namespace Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Details")
+                    b.Property<string>("EngineerDetails")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EngineerName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("HireDate")
@@ -37,14 +41,15 @@ namespace Factory.Migrations
                     b.Property<int>("MachineId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("RepairId")
+                        .HasColumnType("int");
 
                     b.HasKey("EngineerId");
 
                     b.HasIndex("MachineId")
                         .IsUnique();
+
+                    b.HasIndex("RepairId");
 
                     b.ToTable("Engineers");
                 });
@@ -76,15 +81,15 @@ namespace Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("LicenseType")
                         .HasColumnType("int");
+
+                    b.Property<string>("MachineDescription")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MachineLabel")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("RepairId")
                         .HasColumnType("int");
@@ -139,7 +144,15 @@ namespace Factory.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Factory.Models.Repair", "Repair")
+                        .WithMany()
+                        .HasForeignKey("RepairId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Machine");
+
+                    b.Navigation("Repair");
                 });
 
             modelBuilder.Entity("Factory.Models.EngineerMachine", b =>

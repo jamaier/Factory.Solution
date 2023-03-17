@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factory.Migrations
 {
     [DbContext(typeof(FactoryContext))]
-    [Migration("20230317155505_Initial")]
-    partial class Initial
+    [Migration("20230317162658_EngineerForRepair")]
+    partial class EngineerForRepair
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,11 @@ namespace Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Details")
+                    b.Property<string>("EngineerDetails")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EngineerName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("HireDate")
@@ -39,13 +43,15 @@ namespace Factory.Migrations
                     b.Property<int>("MachineId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("RepairId")
+                        .HasColumnType("int");
 
                     b.HasKey("EngineerId");
 
-                    b.HasIndex("MachineId");
+                    b.HasIndex("MachineId")
+                        .IsUnique();
+
+                    b.HasIndex("RepairId");
 
                     b.ToTable("Engineers");
                 });
@@ -77,42 +83,90 @@ namespace Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
+                    b.Property<int>("LicenseType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MachineDescription")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Label")
+                    b.Property<string>("MachineLabel")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("LicenseType")
+                    b.Property<int?>("RepairId")
                         .HasColumnType("int");
 
                     b.HasKey("MachineId");
 
+                    b.HasIndex("RepairId");
+
                     b.ToTable("Machines");
+                });
+
+            modelBuilder.Entity("Factory.Models.MachineRepair", b =>
+                {
+                    b.Property<int>("MachineRepairId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("MachineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RepairId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MachineRepairId");
+
+                    b.HasIndex("MachineId");
+
+                    b.HasIndex("RepairId");
+
+                    b.ToTable("MachineRepair");
+                });
+
+            modelBuilder.Entity("Factory.Models.Repair", b =>
+                {
+                    b.Property<int>("RepairId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("RepairDetails")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("RepairId");
+
+                    b.ToTable("Repair");
                 });
 
             modelBuilder.Entity("Factory.Models.Engineer", b =>
                 {
                     b.HasOne("Factory.Models.Machine", "Machine")
-                        .WithMany("Engineer")
-                        .HasForeignKey("MachineId")
+                        .WithOne("Engineer")
+                        .HasForeignKey("Factory.Models.Engineer", "MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Factory.Models.Repair", "Repair")
+                        .WithMany()
+                        .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Machine");
+
+                    b.Navigation("Repair");
                 });
 
             modelBuilder.Entity("Factory.Models.EngineerMachine", b =>
                 {
                     b.HasOne("Factory.Models.Engineer", "Engineer")
-                        .WithMany("JoinEntities")
+                        .WithMany("JoinMachine")
                         .HasForeignKey("EngineerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Factory.Models.Machine", "Machine")
-                        .WithMany()
+                        .WithMany("JoinEngineer")
                         .HasForeignKey("MachineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -122,14 +176,51 @@ namespace Factory.Migrations
                     b.Navigation("Machine");
                 });
 
+            modelBuilder.Entity("Factory.Models.Machine", b =>
+                {
+                    b.HasOne("Factory.Models.Repair", "Repair")
+                        .WithMany()
+                        .HasForeignKey("RepairId");
+
+                    b.Navigation("Repair");
+                });
+
+            modelBuilder.Entity("Factory.Models.MachineRepair", b =>
+                {
+                    b.HasOne("Factory.Models.Machine", "Machine")
+                        .WithMany("JoinRepair")
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Factory.Models.Repair", "Repair")
+                        .WithMany("JoinMachine")
+                        .HasForeignKey("RepairId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Machine");
+
+                    b.Navigation("Repair");
+                });
+
             modelBuilder.Entity("Factory.Models.Engineer", b =>
                 {
-                    b.Navigation("JoinEntities");
+                    b.Navigation("JoinMachine");
                 });
 
             modelBuilder.Entity("Factory.Models.Machine", b =>
                 {
                     b.Navigation("Engineer");
+
+                    b.Navigation("JoinEngineer");
+
+                    b.Navigation("JoinRepair");
+                });
+
+            modelBuilder.Entity("Factory.Models.Repair", b =>
+                {
+                    b.Navigation("JoinMachine");
                 });
 #pragma warning restore 612, 618
         }

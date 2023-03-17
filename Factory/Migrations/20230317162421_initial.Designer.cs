@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factory.Migrations
 {
     [DbContext(typeof(FactoryContext))]
-    [Migration("20230317161139_AddRepairs")]
-    partial class AddRepairs
+    [Migration("20230317162421_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,11 @@ namespace Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Details")
+                    b.Property<string>("EngineerDetails")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EngineerName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("HireDate")
@@ -38,10 +42,6 @@ namespace Factory.Migrations
 
                     b.Property<int>("MachineId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.HasKey("EngineerId");
 
@@ -78,15 +78,15 @@ namespace Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("LicenseType")
                         .HasColumnType("int");
+
+                    b.Property<string>("MachineDescription")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MachineLabel")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("RepairId")
                         .HasColumnType("int");
