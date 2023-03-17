@@ -14,7 +14,7 @@ namespace Factory.Models
     public int LicenseType { get; set; }
     public Engineer Engineer { get; set; }
     public Repair Repair { get; set; }
-    public List<EngineerMachine> JoinEngineer { get; set; }
+    public List<EngineerMachine> JoinMachine { get; set; }
     public List<MachineRepair> JoinRepair { get; }
 
   }
