@@ -1,0 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Factory.Models.Machine
+
+<h4>Add a new Machine</h4>
+
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.MachineLabel, "Name this machine")
+  @Html.TextBoxFor(model => model.MachineLabel, new { required="required" })
+  @* @Html.LabelFor(model => model.MachineDescription, "Describe this machine")
+  @Html.TextBoxFor(model => model.MachineDescription, new { required="required" }) *@
+
+
+  <input type="submit" value="Add" class="btn btn-primary"/>
+}

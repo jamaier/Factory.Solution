@@ -7,18 +7,17 @@ using System.Linq;
 
 namespace Factory.Controllers
 {
-  public class MachineController : Controller
+  public class MachinesController : Controller
   {
     private readonly FactoryContext _db;
-
-    public MachineController(FactoryContext db)
+    public MachinesController(FactoryContext db)
     {
       _db = db;
     }
 
     public ActionResult Index()
     {
-      List<Machine> model = _db.Machines.Include(machine => machine.Engineer).ToList();
+      List<Machine> model = _db.Machines.ToList();
       return View(model);
     }
 
@@ -49,8 +48,8 @@ namespace Factory.Controllers
       Machine thisMachine = _db.Machines
         .Include(machine => machine.JoinMachines)
         .ThenInclude(join => join.Engineer)
-        .Include(machine => machine.JoinRepairs)
-        .ThenInclude(join => join.Repair)
+        // .Include(machine => machine.JoinRepairs)
+        // .ThenInclude(join => join.Repair)
         .FirstOrDefault(machine => machine.MachineId == id);
       return View(thisMachine);
     }
@@ -115,34 +114,34 @@ namespace Factory.Controllers
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddRepair(int id)
-    {
-      Machine thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
-      ViewBag.RepairId = new SelectList(_db.Repairs, "RepairId", "RepairDetails");
-      return View(thisMachine);
-    }
+    // public ActionResult AddRepair(int id)
+    // {
+    //   Machine thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
+    //   ViewBag.RepairId = new SelectList(_db.Repairs, "RepairId", "RepairDetails");
+    //   return View(thisMachine);
+    // }
 
-    [HttpPost]
-    public ActionResult AddRepair(Machine machine, int RepairId)
-    {
-      #nullable enable
-      MachineRepair? joinRepair = _db.MachineRepair.FirstOrDefault(entry => entry.RepairId == RepairId && entry.MachineId == machine.MachineId);
-      #nullable disable
-      if (joinRepair == null && RepairId != 0)
-      {
-        _db.MachineRepair.Add(new MachineRepair() { RepairId = RepairId, MachineId = machine.MachineId });
-        _db.SaveChanges();
-      }
-      return RedirectToAction("Details", new { id = machine.MachineId });
-    }
+    // [HttpPost]
+    // public ActionResult AddRepair(Machine machine, int RepairId)
+    // {
+    //   #nullable enable
+    //   MachineRepair? joinRepair = _db.MachineRepair.FirstOrDefault(entry => entry.RepairId == RepairId && entry.MachineId == machine.MachineId);
+    //   #nullable disable
+    //   if (joinRepair == null && RepairId != 0)
+    //   {
+    //     _db.MachineRepair.Add(new MachineRepair() { RepairId = RepairId, MachineId = machine.MachineId });
+    //     _db.SaveChanges();
+    //   }
+    //   return RedirectToAction("Details", new { id = machine.MachineId });
+    // }
 
-    [HttpPost]
-    public ActionResult DeleteRepair(int joinId)
-    {
-      MachineRepair joinEntry = _db.MachineRepair.FirstOrDefault(entry => entry.MachineRepairId == joinId);
-      _db.MachineRepair.Remove(joinEntry);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
-    }
+    // [HttpPost]
+    // public ActionResult DeleteRepair(int joinId)
+    // {
+    //   MachineRepair joinEntry = _db.MachineRepair.FirstOrDefault(entry => entry.MachineRepairId == joinId);
+    //   _db.MachineRepair.Remove(joinEntry);
+    //   _db.SaveChanges();
+    //   return RedirectToAction("Index");
+    // }
   }
 }
