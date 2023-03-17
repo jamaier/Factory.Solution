@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Factory.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace Factory.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Repair",
+                name: "Repairs",
                 columns: table => new
                 {
                     RepairId = table.Column<int>(type: "int", nullable: false)
@@ -24,7 +24,7 @@ namespace Factory.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Repair", x => x.RepairId);
+                    table.PrimaryKey("PK_Repairs", x => x.RepairId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -45,9 +45,9 @@ namespace Factory.Migrations
                 {
                     table.PrimaryKey("PK_Machines", x => x.MachineId);
                     table.ForeignKey(
-                        name: "FK_Machines_Repair_RepairId",
+                        name: "FK_Machines_Repairs_RepairId",
                         column: x => x.RepairId,
-                        principalTable: "Repair",
+                        principalTable: "Repairs",
                         principalColumn: "RepairId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -65,7 +65,8 @@ namespace Factory.Migrations
                     LicenseType = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     HireDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    MachineId = table.Column<int>(type: "int", nullable: false)
+                    MachineId = table.Column<int>(type: "int", nullable: false),
+                    RepairId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,31 +77,10 @@ namespace Factory.Migrations
                         principalTable: "Machines",
                         principalColumn: "MachineId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "MachineRepair",
-                columns: table => new
-                {
-                    MachineRepairId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    MachineId = table.Column<int>(type: "int", nullable: false),
-                    RepairId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MachineRepair", x => x.MachineRepairId);
                     table.ForeignKey(
-                        name: "FK_MachineRepair_Machines_MachineId",
-                        column: x => x.MachineId,
-                        principalTable: "Machines",
-                        principalColumn: "MachineId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MachineRepair_Repair_RepairId",
+                        name: "FK_Engineers_Repairs_RepairId",
                         column: x => x.RepairId,
-                        principalTable: "Repair",
+                        principalTable: "Repairs",
                         principalColumn: "RepairId",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -133,6 +113,39 @@ namespace Factory.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "MachineRepair",
+                columns: table => new
+                {
+                    MachineRepairId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MachineId = table.Column<int>(type: "int", nullable: false),
+                    RepairId = table.Column<int>(type: "int", nullable: false),
+                    EngineerId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MachineRepair", x => x.MachineRepairId);
+                    table.ForeignKey(
+                        name: "FK_MachineRepair_Engineers_EngineerId",
+                        column: x => x.EngineerId,
+                        principalTable: "Engineers",
+                        principalColumn: "EngineerId");
+                    table.ForeignKey(
+                        name: "FK_MachineRepair_Machines_MachineId",
+                        column: x => x.MachineId,
+                        principalTable: "Machines",
+                        principalColumn: "MachineId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MachineRepair_Repairs_RepairId",
+                        column: x => x.RepairId,
+                        principalTable: "Repairs",
+                        principalColumn: "RepairId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_EngineerMachine_EngineerId",
                 table: "EngineerMachine",
@@ -148,6 +161,16 @@ namespace Factory.Migrations
                 table: "Engineers",
                 column: "MachineId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Engineers_RepairId",
+                table: "Engineers",
+                column: "RepairId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MachineRepair_EngineerId",
+                table: "MachineRepair",
+                column: "EngineerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MachineRepair_MachineId",
@@ -180,7 +203,7 @@ namespace Factory.Migrations
                 name: "Machines");
 
             migrationBuilder.DropTable(
-                name: "Repair");
+                name: "Repairs");
         }
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factory.Migrations
 {
     [DbContext(typeof(FactoryContext))]
-    [Migration("20230317162421_initial")]
-    partial class initial
+    [Migration("20230317173021_EngineerToRepairs")]
+    partial class EngineerToRepairs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,10 +43,15 @@ namespace Factory.Migrations
                     b.Property<int>("MachineId")
                         .HasColumnType("int");
 
+                    b.Property<int>("RepairId")
+                        .HasColumnType("int");
+
                     b.HasKey("EngineerId");
 
                     b.HasIndex("MachineId")
                         .IsUnique();
+
+                    b.HasIndex("RepairId");
 
                     b.ToTable("Engineers");
                 });
@@ -104,6 +109,9 @@ namespace Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("EngineerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MachineId")
                         .HasColumnType("int");
 
@@ -111,6 +119,8 @@ namespace Factory.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MachineRepairId");
+
+                    b.HasIndex("EngineerId");
 
                     b.HasIndex("MachineId");
 
@@ -130,7 +140,7 @@ namespace Factory.Migrations
 
                     b.HasKey("RepairId");
 
-                    b.ToTable("Repair");
+                    b.ToTable("Repairs");
                 });
 
             modelBuilder.Entity("Factory.Models.Engineer", b =>
@@ -141,19 +151,27 @@ namespace Factory.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Factory.Models.Repair", "Repair")
+                        .WithMany()
+                        .HasForeignKey("RepairId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Machine");
+
+                    b.Navigation("Repair");
                 });
 
             modelBuilder.Entity("Factory.Models.EngineerMachine", b =>
                 {
                     b.HasOne("Factory.Models.Engineer", "Engineer")
-                        .WithMany("JoinMachine")
+                        .WithMany("JoinMachines")
                         .HasForeignKey("EngineerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Factory.Models.Machine", "Machine")
-                        .WithMany("JoinEngineer")
+                        .WithMany("JoinMachines")
                         .HasForeignKey("MachineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -174,17 +192,25 @@ namespace Factory.Migrations
 
             modelBuilder.Entity("Factory.Models.MachineRepair", b =>
                 {
+                    b.HasOne("Factory.Models.Engineer", "Engineer")
+                        .WithMany("JoinRepairs")
+                        .HasForeignKey("EngineerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Factory.Models.Machine", "Machine")
-                        .WithMany("JoinRepair")
+                        .WithMany("JoinRepairs")
                         .HasForeignKey("MachineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Factory.Models.Repair", "Repair")
-                        .WithMany("JoinMachine")
+                        .WithMany("JoinMachines")
                         .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Engineer");
 
                     b.Navigation("Machine");
 
@@ -193,21 +219,23 @@ namespace Factory.Migrations
 
             modelBuilder.Entity("Factory.Models.Engineer", b =>
                 {
-                    b.Navigation("JoinMachine");
+                    b.Navigation("JoinMachines");
+
+                    b.Navigation("JoinRepairs");
                 });
 
             modelBuilder.Entity("Factory.Models.Machine", b =>
                 {
                     b.Navigation("Engineer");
 
-                    b.Navigation("JoinEngineer");
+                    b.Navigation("JoinMachines");
 
-                    b.Navigation("JoinRepair");
+                    b.Navigation("JoinRepairs");
                 });
 
             modelBuilder.Entity("Factory.Models.Repair", b =>
                 {
-                    b.Navigation("JoinMachine");
+                    b.Navigation("JoinMachines");
                 });
 #pragma warning restore 612, 618
         }

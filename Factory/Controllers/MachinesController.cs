@@ -47,9 +47,9 @@ namespace Factory.Controllers
     public ActionResult Details(int id)
     {
       Machine thisMachine = _db.Machines
-        .Include(machine => machine.JoinMachine)
+        .Include(machine => machine.JoinMachines)
         .ThenInclude(join => join.Engineer)
-        .Include(machine => machine.JoinRepair)
+        .Include(machine => machine.JoinRepairs)
         .ThenInclude(join => join.Repair)
         .FirstOrDefault(machine => machine.MachineId == id);
       return View(thisMachine);

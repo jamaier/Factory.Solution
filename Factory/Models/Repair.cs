@@ -6,6 +6,6 @@ namespace Factory.Models
   {
     public int RepairId { get; set; }
     public string RepairDetails { get; set; }
-    public List<MachineRepair> JoinMachine { get; }
+    public List<MachineRepair> JoinMachines { get; }
   }
 }

@@ -17,7 +17,8 @@ namespace Factory.Models
     public int RepairId { get; set; }
     public Repair Repair { get; set; }
     public Machine Machine { get; set; }
-    public List<EngineerMachine> JoinMachine { get; }
+    public List<MachineRepair> JoinRepairs { get; }
+    public List<EngineerMachine> JoinMachines { get; }
     
   }
 }
