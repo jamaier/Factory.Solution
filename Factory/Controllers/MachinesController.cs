@@ -95,11 +95,11 @@ namespace Factory.Controllers
     public ActionResult AddEngineer(Machine machine, int EngineerId)
     {
       #nullable enable
-      EngineerMachine? joinEngineer = _db.EngineerMachine.FirstOrDefault(entry => entry.EngineerId == EngineerId && entry.MachineId == machine.MachineId);
+      EngineerMachine? joinEngineer = _db.EngineerMachines.FirstOrDefault(entry => entry.EngineerId == EngineerId && entry.MachineId == machine.MachineId);
       #nullable disable
       if (joinEngineer == null && EngineerId != 0)
       {
-        _db.EngineerMachine.Add(new EngineerMachine() { EngineerId = EngineerId, MachineId = machine.MachineId });
+        _db.EngineerMachines.Add(new EngineerMachine() { EngineerId = EngineerId, MachineId = machine.MachineId });
         _db.SaveChanges();
       }
       return RedirectToAction("Details", new { id = machine.MachineId });
@@ -108,8 +108,8 @@ namespace Factory.Controllers
     [HttpPost]
     public ActionResult DeleteEngineer(int joinId)
     {
-      EngineerMachine joinEntry = _db.EngineerMachine.FirstOrDefault(entry => entry.EngineerMachineId == joinId);
-      _db.EngineerMachine.Remove(joinEntry);
+      EngineerMachine joinEntry = _db.EngineerMachines.FirstOrDefault(entry => entry.EngineerMachineId == joinId);
+      _db.EngineerMachines.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

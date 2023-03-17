@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factory.Migrations
 {
     [DbContext(typeof(FactoryContext))]
-    [Migration("20230317203510_Initial")]
+    [Migration("20230317213016_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,8 @@ namespace Factory.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("HireDate")
+                    b.Property<DateTime?>("HireDate")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("EngineerId");
@@ -57,7 +58,7 @@ namespace Factory.Migrations
 
                     b.HasIndex("MachineId");
 
-                    b.ToTable("EngineerMachine");
+                    b.ToTable("EngineerMachines");
                 });
 
             modelBuilder.Entity("Factory.Models.Machine", b =>

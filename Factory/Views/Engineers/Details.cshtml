@@ -4,12 +4,11 @@
 
 @model Factory.Models.Engineer;
 @using Factory.Models;
-@using System.Collections.Generic;
 
-<h2>🎓 Student Details</h2>
+<h2>Details</h2>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.EngineerName): @Html.DisplayFor(model => model.EngineerName)</h3>
-<h3>Enrollment Date: @Model.HireDate.ToString("MM/dd/yyyy")</h3>
+<h3>Hire Date: @Model.HireDate?.ToString("MM/dd/yyyy")</h3>
 
 @if(@Model.JoinMachines.Count == 0)
 {
@@ -33,6 +32,6 @@ else
 }
 
 <div id="index-nav">
-<p>@Html.ActionLink("Edit Engineer", "Edit", new { id = Model.EngineerId })</p>
-<p>@Html.ActionLink("Remove this Engineer", "Delete", new { id = Model.EngineerId }) | @Html.ActionLink("Add new Machine", "AddMachine", "Engineers")</p>
+<p>@Html.ActionLink("Edit Engineer", "Edit", new { id = Model.EngineerId }) || @Html.ActionLink("Approve Machine", "AddMachine", new { id = Model.EngineerId})</p>
+<p>@Html.ActionLink("Remove this Engineer", "Delete", new { id = Model.EngineerId }) || @Html.ActionLink("Add new Machine", "AddMachine", "Engineers")</p>
 </div>
