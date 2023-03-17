@@ -1,0 +1,36 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Factory.Models;
+
+<h1>Welcome to the To Do List!</h1>
+
+<hr>
+
+<h4>Machines:</h4>
+@if (Model["Machines"].Length == 0)
+{
+  <p>No Machines have been added yet!</p>
+} 
+<ul>
+  @foreach (Machine machine in Model["categories"])
+  {
+    <li>@Html.ActionLink(@machine.MachineLabel, "Details", "Categories", new { id = @machine.MachineId})</li>
+  }
+</ul>
+
+<h4>Engineers:</h4>
+@if (Model["Engineers"].Length == 0)
+{
+  <p>No engineers have been added yet!</p>
+} 
+<ul>
+  @foreach (Engineer engineer in Model["Engineers"])
+  {
+    <li>@Html.ActionLink(@engineer.EngineerName, "Details", "Engineers", new { id = @engineer.EngineerId})</li>
+  }
+</ul>
+
+<hr>
+
