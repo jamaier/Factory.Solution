@@ -7,8 +7,8 @@
 
 <h2>Details</h2>
 <hr />
-<h3>@Html.DisplayNameFor(model => model.EngineerName): @Html.DisplayFor(model => model.EngineerName)</h3>
-<h5>Hire Date: @Html.DisplayFor(Model => Model.HireDate)</h5>
+<h3>Employee: @Html.DisplayFor(model => model.EngineerName)</h3>
+<h5>Hire Date: @Model.HireDate?.ToString("MM/dd/yyyy")</h5>
 
 @if(@Model.JoinMachines.Count == 0)
 {
@@ -32,6 +32,6 @@ else
 }
 
 <div id="index-nav">
-<p>@Html.ActionLink("Edit Engineer", "Edit", new { id = Model.EngineerId }) || @Html.ActionLink("Approve Machine", "AddMachine", new { id = Model.EngineerId})</p>
+<p>@Html.ActionLink("Edit Engineer", "Edit", new { id = Model.EngineerId }) || @Html.ActionLink("Add to Machine", "AddMachine", new { id = Model.EngineerId})</p>
 <p>@Html.ActionLink("Remove this Engineer", "Delete", new { id = Model.EngineerId }) || @Html.ActionLink("Add new Machine", "AddMachine", "Engineers")</p>
 </div>

@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System;
-using Factory.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
+using Factory.Models;
 
 namespace Factory.Controllers
 {
@@ -29,9 +28,16 @@ namespace Factory.Controllers
     [HttpPost]
     public ActionResult Create(Engineer engineer)
     {
-      _db.Engineers.Add(engineer);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
+      if (!ModelState.IsValid)
+      {
+        return View(engineer);
+      }
+      else
+      {
+        _db.Engineers.Add(engineer);
+        _db.SaveChanges();
+        return RedirectToAction("Index");
+      }
     }
 
     public ActionResult Details(int id)
@@ -74,6 +80,14 @@ namespace Factory.Controllers
       return RedirectToAction("Index");
     }
 
+    
+    public ActionResult AddMachine(int id)
+    {
+      Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineer => engineer.EngineerId == id);
+      ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "Name");
+      return View(thisEngineer);
+    }
+
     [HttpPost]
     public ActionResult AddMachine(Engineer engineer, int machineId)
     {
@@ -94,7 +108,7 @@ namespace Factory.Controllers
       EngineerMachine joinEntry = _db.EngineerMachines.FirstOrDefault(entry => entry.EngineerMachineId == joinId);
       _db.EngineerMachines.Remove(joinEntry);
       _db.SaveChanges();
-      return RedirectToAction("Details", new { id = joinEntry.EngineerId });
+      return RedirectToAction("Index");
     }
   }
 }

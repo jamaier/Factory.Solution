@@ -12,8 +12,8 @@
 {
   @Html.HiddenFor(model => model.MachineId)
 
-  @Html.LabelFor(model => model.MachineId)
-  @Html.TextBoxFor(model => model.MachineId)
+  @Html.LabelFor(model => model.MachineLabel)
+  @Html.EditorFor(model => model.MachineLabel)
 
   <input type="submit" value="Save" />
 }

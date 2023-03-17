@@ -1,7 +1,7 @@
 @{
   Layout = "_Layout";
 }
-
+@using Factory.Models
 @model Factory.Models.Engineer
 
 <h2>Approve this engineer for a Machine</h2>
@@ -17,3 +17,6 @@
 
     <input type="submit" value="Save" />
 }
+
+  <p>@Html.ActionLink("Back to list", "Index")</p>
+  <p>@Html.ActionLink("Add new Machine", "Create", "Machines")</p>

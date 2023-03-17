@@ -4,6 +4,9 @@
 
 @model Factory.Models.Engineer
 
+<p>@Html.ValidationMessageFor(model => model.EngineerName, "Name")</p>
+<p>@Html.ValidationMessageFor(model => model.HireDate, "Hire Date", new { @class = "text-danger", @style = "font-weight: 600;"})</p>
+
 <h4>Add new Engineer</h4>
 @using (Html.BeginForm())
 {
@@ -17,3 +20,5 @@
   @Html.TextBoxFor(model => model.HireDate, new { @class = "form-control", type = "datetime-local" })
   <input type="submit" value="Add"  class="btn btn-primary"/>
 }
+
+<p> @Html.ActionLink("Back to List", "Index" )</p>
