@@ -1,15 +1,14 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Factory.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Factory.Controllers
 {
   public class MachinesController : Controller
   {
     private readonly FactoryContext _db;
+
     public MachinesController(FactoryContext db)
     {
       _db = db;
@@ -17,13 +16,12 @@ namespace Factory.Controllers
 
     public ActionResult Index()
     {
-      List<Machine> model = _db.Machines.ToList();
-      return View(model);
+      return View(_db.Machines.ToList());
     }
 
     public ActionResult Create()
     {
-      ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "EngineerName");
+      ViewBag.Engineers = _db.Engineers.ToList();
       return View();
     }
 
@@ -47,8 +45,6 @@ namespace Factory.Controllers
       Machine thisMachine = _db.Machines
         .Include(machine => machine.JoinMachines)
         .ThenInclude(join => join.Engineer)
-        // .Include(machine => machine.JoinRepairs)
-        // .ThenInclude(join => join.Repair)
         .FirstOrDefault(machine => machine.MachineId == id);
       return View(thisMachine);
     }
@@ -66,7 +62,6 @@ namespace Factory.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
     public ActionResult Delete(int id)
     {
       Machine thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);

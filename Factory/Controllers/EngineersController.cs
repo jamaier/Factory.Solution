@@ -52,6 +52,7 @@ namespace Factory.Controllers
     public ActionResult Edit(int id)
     {
       Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineer => engineer.EngineerId == id);
+      ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "EngineerName");
       return View(thisEngineer);
     }
 
@@ -82,7 +83,7 @@ namespace Factory.Controllers
     public ActionResult AddMachine(int id)
     {
       Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineer => engineer.EngineerId == id);
-      ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "Name");
+      ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "MachineLabel");
       return View(thisEngineer);
     }
 
