@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-color: #c5dafa;
 }
 
 div#main-body {
@@ -11,4 +12,5 @@ div#main-body {
 div#index-nav {
   text-align: center;
 }
+
 
