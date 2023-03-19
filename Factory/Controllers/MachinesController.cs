@@ -111,35 +111,5 @@ namespace Factory.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
-    // public ActionResult AddRepair(int id)
-    // {
-    //   Machine thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
-    //   ViewBag.RepairId = new SelectList(_db.Repairs, "RepairId", "RepairDetails");
-    //   return View(thisMachine);
-    // }
-
-    // [HttpPost]
-    // public ActionResult AddRepair(Machine machine, int RepairId)
-    // {
-    //   #nullable enable
-    //   MachineRepair? joinRepair = _db.MachineRepair.FirstOrDefault(entry => entry.RepairId == RepairId && entry.MachineId == machine.MachineId);
-    //   #nullable disable
-    //   if (joinRepair == null && RepairId != 0)
-    //   {
-    //     _db.MachineRepair.Add(new MachineRepair() { RepairId = RepairId, MachineId = machine.MachineId });
-    //     _db.SaveChanges();
-    //   }
-    //   return RedirectToAction("Details", new { id = machine.MachineId });
-    // }
-
-    // [HttpPost]
-    // public ActionResult DeleteRepair(int joinId)
-    // {
-    //   MachineRepair joinEntry = _db.MachineRepair.FirstOrDefault(entry => entry.MachineRepairId == joinId);
-    //   _db.MachineRepair.Remove(joinEntry);
-    //   _db.SaveChanges();
-    //   return RedirectToAction("Index");
-    // }
   }
 }

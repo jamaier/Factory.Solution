@@ -17,8 +17,8 @@
 else
 {
   <h4>Approved to work on these Machines:</h4>
+  List<EngineerMachine> machineList = new List<EngineerMachine>();
   <ul>
-  
   @foreach(EngineerMachine join in Model.JoinMachines)
   {
     <li>@join.Machine.MachineLabel</li>

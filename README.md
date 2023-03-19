@@ -36,7 +36,7 @@ _This is site built for the user to manage their machines and engineers licensed
 
 ## Known Bugs
 
-* _N/A_
+* _Currently adding machine to engineers and engineers to students not working._
 
 ## License
 
